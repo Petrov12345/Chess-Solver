@@ -1,0 +1,170 @@
+/* Main container */
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title section */
+.header-container {
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.header-container h1 {
+  color: #ffd700;
+  font-size: 2.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 0;
+}
+
+.header-container h2 {
+  color: #333;
+  margin: 10px 0;
+}
+
+/* Button controls */
+.header-container button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.header-container button:hover {
+  background-color: #d0d0d0;
+}
+
+/* Board and evaluation section */
+.board-and-eval {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  justify-content: center;
+  width: fit-content;
+  position: relative;
+}
+
+/* Evaluation bar */
+.eval-bar-container {
+  width: 40px;
+  height: 600px;
+  position: relative;
+}
+
+.eval-bar-container p {
+  position: absolute;
+  right: -120px; /* Changed from -80px to -120px to move text even further right */
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+.bar-container {
+  height: 100%;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.black-bar {
+  background-color: #333;
+  width: 100%;
+  transition: height 0.3s ease;
+}
+
+.white-bar {
+  background-color: #fff;
+  width: 100%;
+  transition: height 0.3s ease;
+}
+
+/* Info section */
+.info-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6px;
+  padding: 0;
+  width: 600px; /* Match chess board width */
+  position: relative;
+  top: -6px;
+}
+
+.info-section p {
+  margin: 0;
+}
+
+/* Best move display */
+.info-section p:first-child {
+  background-color: #ffebee;
+  padding: 10px;
+  border-radius: 4px;
+  color: #d32f2f;
+  margin: 0 auto;
+}
+
+/* Error message */
+.info-section p[style*="color: red"] {
+  background-color: #e8f5e9;
+  padding: 10px;
+  border-radius: 4px;
+  color: #2e7d32 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .app-container {
+    padding: 10px;
+  }
+
+  .board-and-eval {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .eval-bar-container {
+    width: 100%;
+    height: 40px;
+  }
+
+  .eval-bar-container p {
+    position: static;
+    transform: none;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .bar-container {
+    height: 40px;
+    display: flex;
+  }
+
+  .black-bar,
+  .white-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+
+  .info-section {
+    width: 100%;
+    top: 0;
+  }
+}
+

@@ -22,15 +22,13 @@ export default function App() {
   const topText = gameStatus ? gameStatus : `Current Turn: ${currentTurn}`;
 
   useEffect(() => {
-    // Get the best move on initial load
     getBestMove(startingFen);
     // eslint-disable-next-line
   }, []);
 
-  // Determine backend API URL from environment variable (fallback to localhost for development)
-  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+  // Updated API URL to point to the EC2 backend
+  const apiUrl = "http://3.146.34.3";
 
-  // -- Query engine for best move/eval
   async function getBestMove(fen) {
     if (gameStatus) return;
     try {
@@ -58,12 +56,10 @@ export default function App() {
     }
   }
 
-  // -- Check if game is over
   function checkGameOver() {
     if (!chess.isGameOver()) return;
 
     if (chess.isCheckmate()) {
-      // If isCheckmate() is true, the side to move is checkmated => other side wins
       const winner = chess.turn() === "w" ? "Black" : "White";
       setGameStatus(`${winner} Wins!`);
     } else if (
@@ -76,7 +72,6 @@ export default function App() {
     }
   }
 
-  // -- Move piece on drop
   function onPieceDrop(sourceSquare, targetSquare) {
     setErrorMessage("");
     if (gameStatus) return false;
@@ -150,7 +145,6 @@ export default function App() {
     setIsFlipped(!isFlipped);
   }
 
-  // -- Convert numeric evaluation to bar heights & text
   let blackHeight = 50;
   let whiteHeight = 50;
   let displayEval = "No evaluation yet.";
@@ -168,7 +162,6 @@ export default function App() {
         displayEval = `Black mates in ${Math.abs(mateVal)}`;
       }
     } else {
-      // numeric centipawn from White's perspective
       const evalInt = parseInt(evaluation, 10);
       const clipped = Math.max(-400, Math.min(400, evalInt));
 
@@ -199,7 +192,6 @@ export default function App() {
       </div>
 
       <div className="board-and-eval">
-        {/* Chessboard (600x600) */}
         <Chessboard
           position={position}
           onPieceDrop={onPieceDrop}
@@ -208,18 +200,11 @@ export default function App() {
           boardWidth={600}
         />
 
-        {/* Evaluation bar to the right of the board */}
         <div className="eval-bar-container">
           <p style={{ margin: "0 0 5px" }}>{displayEval}</p>
           <div className="bar-container">
-            <div
-              className="black-bar"
-              style={{ height: `${blackHeight}%` }}
-            ></div>
-            <div
-              className="white-bar"
-              style={{ height: `${whiteHeight}%` }}
-            ></div>
+            <div className="black-bar" style={{ height: `${blackHeight}%` }}></div>
+            <div className="white-bar" style={{ height: `${whiteHeight}%` }}></div>
           </div>
         </div>
       </div>

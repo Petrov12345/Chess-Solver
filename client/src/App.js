@@ -27,7 +27,7 @@ export default function App() {
   }, []);
 
   // Updated API URL to point to the EC2 backend
-  const apiUrl = "http://3.146.34.3";
+  const apiUrl = "http://3.146.34.3:5000";
 
   async function getBestMove(fen) {
     if (gameStatus) return;

@@ -18,14 +18,15 @@ app.use(cors({ origin: allowedOrigin }));
 app.use(bodyParser.json());
 
 // Use environment variable for Stockfish path (set STOCKFISH_PATH in production)
-const STOCKFISH_PATH = process.env.STOCKFISH_PATH || "C:\\Users\\julpe\\Downloads\\stockfish-windows-x86-64-avx2\\stockfish\\stockfish-windows-x86-64-avx2.exe";
+const STOCKFISH_PATH = process.env.STOCKFISH_PATH || "/usr/games/stockfish"; // Updated for AWS Linux
 
 // Spawn Stockfish when the server starts
 const stockfish = spawn(STOCKFISH_PATH);
 
-console.log("Stockfish process started.");
+console.log("Stockfish process started on AWS EC2.");
 stockfish.stdin.write("uci\n");
 
+// Handle errors and logging for Stockfish
 stockfish.stderr.on("data", (data) => {
   console.error("Stockfish Error:", data.toString());
 });
@@ -34,7 +35,6 @@ stockfish.on("close", (code) => {
   console.log(`Stockfish process exited with code ${code}`);
 });
 
-// Handle unexpected errors gracefully
 stockfish.on("error", (err) => {
   console.error("Failed to start Stockfish:", err);
   process.exit(1);
@@ -59,7 +59,7 @@ function getBestMoveAndEval(fen, depth = 15) {
         if (trimmed.startsWith("info depth")) {
           const scoreMatch = trimmed.match(/score (\w+) (-?\d+)/);
           if (scoreMatch) {
-            const scoreType = scoreMatch[1];  // "cp" or "mate"
+            const scoreType = scoreMatch[1]; // "cp" or "mate"
             const scoreValue = parseInt(scoreMatch[2], 10);
 
             if (scoreType === "cp") {
@@ -140,4 +140,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
-
